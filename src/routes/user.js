@@ -42,6 +42,11 @@ module.exports =[ {
     path: '/users/{username}',
     config: {
       tags: ['api'],
+      validate: {
+        params: {
+          username: Joi.string()
+      }
+    },
       handler: service.getUserByUsername
     }},
 
