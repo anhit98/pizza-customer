@@ -52,7 +52,10 @@ module.exports =[ {
         tags: ['api'],
         handler: service.updateUser,
         validate: {
-          payload: service.validateUpdate
+          payload: service.validateUpdate,
+          params: {
+            id: Joi.string().min(3).max(100)
+        }
       }
       },
 },
