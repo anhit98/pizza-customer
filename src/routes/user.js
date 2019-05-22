@@ -44,7 +44,8 @@ module.exports =[ {
       tags: ['api'],
       validate: {
         params: {
-          username: Joi.string()
+          username: Joi.string(),
+          access_token: Joi.string()
       }
     },
       handler: service.getUserByUsername
