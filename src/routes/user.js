@@ -1,6 +1,6 @@
 
 const service = require('../services/user.js');
-
+const Joi = require('joi');
 module.exports =[ {
     method: 'POST',
     path: '/users/register',
