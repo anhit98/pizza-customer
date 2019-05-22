@@ -6,8 +6,8 @@ const HapiSwagger = require('hapi-swagger');
 const Pack = require('./../package');
 const Authentication = require("./plugin/user.js");
 require('dotenv').config()
-
-const server = Hapi.server({ port: 3009, host: process.env.DB_HOST }); 
+const port=process.env.PORT || 3000
+const server = Hapi.server({ port: port}); 
 
 const init = async () => {
     
