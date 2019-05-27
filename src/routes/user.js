@@ -8,6 +8,9 @@ module.exports =[ {
       tags: ['api'], // ADD THIS TAG
       auth: false,
       handler: service.createUser,
+      cors: {
+        origin: ['*']
+    },
       validate: {
         payload: service.validateRegister
     }
@@ -20,6 +23,9 @@ module.exports =[ {
       tags: ['api'], // ADD THIS TAG
       auth: false,
       handler: service.createQuickUser,
+      cors: {
+        origin: ['*']
+    },
       validate: {
         payload: service.validateRegister
     }
@@ -32,6 +38,9 @@ module.exports =[ {
     tags: ['api'],
     auth: false,
     handler: service.login,
+    cors: {
+      origin: ['*']
+  },
     validate: {
       payload: service.validateLogin
   }
@@ -48,7 +57,10 @@ module.exports =[ {
           access_token: Joi.string()
       }
     },
-      handler: service.getUserByUsername
+      handler: service.getUserByUsername,
+      cors: {
+        origin: ['*']
+    },
     }},
 
     {
@@ -57,6 +69,9 @@ module.exports =[ {
       config: {
         tags: ['api'],
         handler: service.updateUser,
+        cors: {
+          origin: ['*']
+      },
         validate: {
           payload: service.validateUpdate,
           params: {
@@ -68,6 +83,9 @@ module.exports =[ {
       {
         method: 'GET',
         path: '/users/logout',
+        cors: {
+          origin: ['*']
+      },
         handler: function (request, reply) {
             return reply.response('You are logged out now').code(401);
         }
