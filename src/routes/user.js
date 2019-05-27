@@ -83,11 +83,15 @@ module.exports =[ {
       {
         method: 'GET',
         path: '/users/logout',
-        cors: {
-          origin: ['*']
-      },
-        handler: function (request, reply) {
-            return reply.response('You are logged out now').code(401);
+        config: {
+          tags: ['api'],
+          cors: {
+            origin: ['*']
+        },
+          handler: function (request, reply) {
+              return reply.response('You are logged out now').code(401);
+          }
         }
+
     }
 ]
