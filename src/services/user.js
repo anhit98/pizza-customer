@@ -54,7 +54,7 @@ const validateRegister = {
   lastName: Joi.string().max(100).required(),
   email: Joi.string().email().required(),
   password: Joi.string().min(6).required(),
-  phone: Joi.string().regex(/^\d{3} \d{3} \d{4}$/).required(),
+  phone: Joi.string().required(),
   userStatus: Joi.number().required()
 }
 const validateUpdate= {
@@ -63,7 +63,7 @@ const validateUpdate= {
   lastName: Joi.string().max(100).optional(),
   email: Joi.string().email().optional(),
   password: Joi.string().min(6).optional(),
-  phone: Joi.string().regex(/^\d{3} \d{3} \d{4}$/).optional(),
+  phone: Joi.string().optional(),
   userStatus: Joi.number().optional()
 }
 
