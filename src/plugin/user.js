@@ -13,11 +13,14 @@ const register = async server => {
 
   server.auth.strategy('jwt', 'jwt', {
     key: publicKEY,
-    verifyOptions: { algorithms: ['HS256'] },
+    verifyOptions: { algorithms: ['RS256'] },
     validate,
   });
 
-    server.auth.default('jwt'); // JWT auth is required for all routes
+    server.auth.default({
+      strategy: "jwt",
+      scope: "user"
+    }); // JWT auth is required for all routes
 };
 
 module.exports = {

@@ -33,7 +33,11 @@ const userSchema = new Schema({
       userStatus: {
         type: Number,
         required: [true, 'userStatus is required']
-      }
+      },
+      scope: {
+        type: String,
+        required: [true, 'scope is required']
+      },
     
 });
 

@@ -27,7 +27,7 @@ let signOptions = {
 }
 
  const createToken = function (user) {
-  return jwt.sign({ id: user._id, username: user.username},  privateKEY, signOptions );
+  return jwt.sign({ id: user._id, username: user.username, scope: user.scope},  privateKEY, signOptions );
 }
 
 function hashPasswordSync(password) {
@@ -55,7 +55,8 @@ const validateRegister = {
   email: Joi.string().email().required(),
   password: Joi.string().min(6).required(),
   phone: Joi.string().required(),
-  userStatus: Joi.number().required()
+  userStatus: Joi.number().required(),
+  scope: Joi.string().required()
 }
 const validateUpdate= {
   username: Joi.string().max(100).optional(),
@@ -75,10 +76,10 @@ const validateLogin = Joi.object().keys({
 
 const verifyUniqueUser = function (req, res) {
   return new Promise((resolve, reject) => {
-  // model.findByNameOrEmail(req.payload, function(err, user) {
-  //   if (err) {
-  //     reject(Boom.badRequest(err));
-  //   }
+  model.findByNameOrEmail(req.payload, function(err, user) {
+    if (err) {
+      reject(Boom.badRequest(err));
+    }
     if (user) { 
       if (user.username === req.payload.username) {
         reject(Boom.badRequest('Username taken'));
