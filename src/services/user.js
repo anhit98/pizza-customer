@@ -75,10 +75,10 @@ const validateLogin = Joi.object().keys({
 
 const verifyUniqueUser = function (req, res) {
   return new Promise((resolve, reject) => {
-  model.findByNameOrEmail(req.payload, function(err, user) {
-    if (err) {
-      reject(Boom.badRequest(err));
-    }
+  // model.findByNameOrEmail(req.payload, function(err, user) {
+  //   if (err) {
+  //     reject(Boom.badRequest(err));
+  //   }
     if (user) { 
       if (user.username === req.payload.username) {
         reject(Boom.badRequest('Username taken'));
