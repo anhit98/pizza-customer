@@ -53,9 +53,12 @@ module.exports =[ {
     config: {
       tags: ['api'],
       validate: {
+        headers:
+        Joi.object().keys({
+          'authorization': Joi.string().required().description('Authorization header containing the JSON Web Token')
+        }).options({ allowUnknown: true }),
         params: {
-          username: Joi.string(),
-          access_token: Joi.string()
+          username: Joi.string()
       }
     },
       handler: service.getUserByUsername,
@@ -74,6 +77,10 @@ module.exports =[ {
           origin: ['*']
       },
         validate: {
+          headers:
+          Joi.object().keys({
+            'authorization': Joi.string().required().description('Authorization header containing the JSON Web Token')
+          }).options({ allowUnknown: true }),
           payload: service.validateUpdate,
           params: {
             id: Joi.string().min(3).max(100)
@@ -89,6 +96,12 @@ module.exports =[ {
           cors: {
             origin: ['*']
         },
+        validate: {
+          headers:
+          Joi.object().keys({
+            'authorization': Joi.string().required().description('Authorization header containing the JSON Web Token')
+          }).options({ allowUnknown: true })
+      },
           handler: function (request, reply) {
               return reply.response('You are logged out now').code(401);
           }
