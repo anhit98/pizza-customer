@@ -6,7 +6,7 @@ const HapiSwagger = require('hapi-swagger');
 const Pack = require('./../package');
 const Authentication = require("./plugin/user.js");
 require('dotenv').config()
-const port=process.env.PORT || 3050
+const port=process.env.PORT || 3003
 const server = Hapi.server({ port: port, host: process.env.HOST}); 
 
 const init = async () => {
@@ -29,10 +29,10 @@ const init = async () => {
             }
             // Authentication
         ]);
-        await server.start(); 
-        console.log(`Server running at: ${server.info.uri}`); 
         server.route(require('./../src/routes/user'));
-}; 
+        await server.start();
+        console.log(`Server running at: ${server.info.uri}`);
+};
 
 init().catch(err => {
     console.error('An error happened while initializing the server', {

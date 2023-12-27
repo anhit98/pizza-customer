@@ -1,6 +1,6 @@
 'use strict';
 const Joi = require('joi');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const Boom = require('boom');
 const fs   = require('fs');
 const jwt = require('jsonwebtoken');
@@ -76,32 +76,31 @@ const validateLogin = Joi.object().keys({
 
 const verifyUniqueUser = function (req, res) {
   return new Promise((resolve, reject) => {
-  model.findByNameOrEmail(req.payload, function(err, user) {
-    if (err) {
-      reject(Boom.badRequest(err));
-    }
-    if (user) { 
-      if (user.username === req.payload.username) {
-        reject(Boom.badRequest('Username taken'));
+    model.findByNameOrEmail(req.payload, function(err, user) {
+      if (err) {
+        reject(Boom.badRequest(err));
       }
-  
-      if (user.email === req.payload.email) {
-        reject(Boom.badRequest('Email taken'));
-      }
-  
-    } else resolve(null) 
-    
-  });  
-});
+      if (user) {
+        if (user.username === req.payload.username) {
+          reject(Boom.badRequest('Username taken'));
+        }
+
+        if (user.email === req.payload.email) {
+          reject(Boom.badRequest('Email taken'));
+        }
+
+      } else resolve(null)
+
+    });
+  });
 }
+
 const createUser = async function (req, reply) {
   await verifyUniqueUser(req, reply);
-
   const password = await hashPasswordSync(req.payload.password);
   req.payload.password = password;
-  // console.log(req.payload)
   return new Promise((resolve, reject) => {
-    model.create(req.payload, function(err, user){ 
+    model.create(req.payload, function(err, user){
     if (err) {
       reject(Boom.badRequest(err));
     } else {
@@ -132,15 +131,14 @@ const login = async function (req, reply) {
 }
 const getUserByUsername = async function (req, reply) {
   const token = req.headers.authorization;
-  console.log(token)
   await verifyToken(token);
   const username = req.params.username;
   return new Promise((resolve, reject) => {
-    model.findUserByUsername(username, function(err, user){ 
+    model.findUserByUsername(username, function(err, user){
       if (err) {
         reject(Boom.badRequest(err));
       } else {
-        if(!user===[]){
+        if(user.length > 0){
           resolve(reply.response({user: user }).code(200));
         }
         else{
@@ -153,7 +151,7 @@ const getUserByUsername = async function (req, reply) {
 const updateUser = async function (req, reply) {
   const token = req.headers.authorization;
   await verifyToken(token);
-  if(req.payload && eq.payload.password){
+  if(req.payload && req.payload.password){
     let pass = await hashPasswordSync(req.payload.password);
     req.payload.password = pass;
   }
